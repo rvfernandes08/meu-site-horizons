@@ -519,13 +519,5 @@ function App() {
 
       <Toaster />
     </div>;
-    import Contato from "./components/Contato";
-
-function App() {
-  return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <Contato />
-    </div>
-  );
 }
 export default App;
