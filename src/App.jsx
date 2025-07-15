@@ -1,7 +1,10 @@
 // App.jsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Wrench, Droplets, Phone, MapPin, Clock, Star, CheckCircle, AlertCircle, User, Calendar, MessageSquare } from 'lucide-react';
+import {
+  Wrench, Droplets, Phone, MapPin, Clock, Star, CheckCircle,
+  AlertCircle, User, Calendar, MessageSquare
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
@@ -58,21 +61,46 @@ function App() {
     window.open(url, '_blank');
   };
 
-  // o restante do seu App (renderHome, renderSolicitar, renderMinhasSolicitacoes, return, etc.) permanece igual
-  // apenas a lógica de envio foi substituída por redirecionamento ao WhatsApp
+  const renderHome = () => <section className="py-20 text-center bg-blue-50">
+    <h1 className="text-4xl font-bold text-blue-700 mb-4">KM Reparos</h1>
+    <p className="text-lg text-blue-600 mb-6">Soluções hidráulicas em Indaiatuba com atendimento rápido</p>
+    <Button onClick={() => setActiveSection('solicitar')}>Solicitar Reparo</Button>
+  </section>;
+
+  const renderSolicitar = () => <section className="py-20 px-4 bg-white max-w-xl mx-auto">
+    <h2 className="text-2xl font-bold mb-6">Formulário de Solicitação</h2>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <Input placeholder="Nome completo" value={formData.name} onChange={e => handleInputChange('name', e.target.value)} required />
+      <Input placeholder="Telefone" value={formData.phone} onChange={e => handleInputChange('phone', e.target.value)} required />
+      <Input placeholder="Endereço" value={formData.address} onChange={e => handleInputChange('address', e.target.value)} required />
+      <Textarea placeholder="Descrição do problema" value={formData.description} onChange={e => handleInputChange('description', e.target.value)} rows={4} />
+      <Button type="submit">Enviar via WhatsApp</Button>
+    </form>
+  </section>;
+
+  const renderMinhasSolicitacoes = () => <section className="py-20 text-center">
+    <h2 className="text-2xl font-bold text-gray-700">Funcionalidade em desenvolvimento</h2>
+    <p className="text-gray-500">Em breve você poderá acompanhar suas solicitações por aqui.</p>
+  </section>;
 
   return (
     <div className="min-h-screen">
-      {/* Navigation */}
-      {/* ... nav completo */}
+      <nav className="bg-white shadow py-4 px-6 flex justify-between">
+        <span className="font-bold text-xl text-blue-700 cursor-pointer" onClick={() => setActiveSection('home')}>KM Reparos</span>
+        <div className="space-x-4">
+          <Button variant={activeSection === 'home' ? 'default' : 'ghost'} onClick={() => setActiveSection('home')}>Início</Button>
+          <Button variant={activeSection === 'solicitar' ? 'default' : 'ghost'} onClick={() => setActiveSection('solicitar')}>Solicitar</Button>
+          <Button variant={activeSection === 'solicitacoes' ? 'default' : 'ghost'} onClick={() => setActiveSection('solicitacoes')}>Minhas Solicitações</Button>
+        </div>
+      </nav>
 
-      {/* Content */}
       {activeSection === 'home' && renderHome()}
       {activeSection === 'solicitar' && renderSolicitar()}
       {activeSection === 'solicitacoes' && renderMinhasSolicitacoes()}
 
-      {/* Footer */}
-      {/* ... footer completo */}
+      <footer className="bg-gray-800 text-white text-center py-6 mt-20">
+        <p className="text-sm">&copy; 2024 KM Reparos - Indaiatuba</p>
+      </footer>
 
       <Toaster />
     </div>
